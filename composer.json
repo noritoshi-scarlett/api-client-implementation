@@ -1,0 +1,20 @@
+{
+    "name": "kamil/merce-api",
+    "description": "API Client",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Kamil\\MerceApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noritoshi",
+            "email": "kamil.balu@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "nyholm/psr7": "^1.5"
+    }
+}
