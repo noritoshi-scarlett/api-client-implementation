@@ -7,6 +7,11 @@
             "Kamil\\MerceApi\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Kamil\\MerceApi\\Tests\\": "tests/"
+         }
+    },
     "authors": [
         {
             "name": "Noritoshi",
