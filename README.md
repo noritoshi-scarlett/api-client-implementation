@@ -20,10 +20,16 @@ Api Client stworzony na potrzeby zadania rekrutacyjnego dla firmy 'merce.
   - ApiClient implementujący ClientInterface z oficjalnego psr-18
   - Exceptiony implementujące Interfejsy z oficjalnego psr-18
 
-3. rozbudowa implementacji PSR-18
+3. Walidacja basic i JWT
 
-4. Walidacja basic i JWT
+- dodanie własnego interfejsu Middleware.
+- Utworzenie dwóch Middleware: Basic i JWT.
+
+4. rozbudowa implementacji PSR-18
+
+- dodanie prostej implementacji curla do ApiClienta
 
 5. dodanie killku testów
 
-6. przykładowe zapytania
+- dodanie 2 testów do API w PHPUnit
+- dodanie exampla w examples
