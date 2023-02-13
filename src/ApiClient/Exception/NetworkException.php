@@ -4,10 +4,12 @@ namespace Kamil\MerceApi\Exception;
 use Psr\Http\Client\NetworkExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 
-class NetworkException implements NetworkExceptionInterface
+class NetworkException extends \RuntimeException implements NetworkExceptionInterface
 {
 
-    use ExceptionTrait;
+    //use ExceptionTrait;
+
+    private RequestInterface $request;
 
     /**
      * Returns the request.
@@ -17,6 +19,7 @@ class NetworkException implements NetworkExceptionInterface
      */
     public function getRequest(): RequestInterface
     {
+        return $this->request;
     }
 
 

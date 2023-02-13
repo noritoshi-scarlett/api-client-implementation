@@ -10,6 +10,8 @@ use Nyholm\Psr7\Uri;
 use Kamil\MerceApi\Middleware\BasicMiddleware;
 
 
+// Ogolny przykład z dumpami
+
 $apiClient = new ApiClient();
 
 $request = new Request(Request::GET, new Uri('https://www.google.com/'));

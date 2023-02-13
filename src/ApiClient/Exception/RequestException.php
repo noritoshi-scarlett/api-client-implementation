@@ -5,11 +5,11 @@ namespace Kamil\MerceApi\Exception;
 use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 
-class RequestException implements RequestExceptionInterface
+class RequestException extends \RuntimeException implements RequestExceptionInterface
 {
+    //use ExceptionTrait;
 
-    use ExceptionTrait;
-
+    private RequestInterface $request;
     /**
      * Returns the request.
      *
@@ -18,6 +18,7 @@ class RequestException implements RequestExceptionInterface
      */
     public function getRequest(): RequestInterface
     {
+        return $this->request;
     }
 
 }

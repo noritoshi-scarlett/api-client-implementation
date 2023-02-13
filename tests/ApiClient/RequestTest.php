@@ -13,7 +13,7 @@ use Psr\Http\Message\RequestInterface;
 
 use Kamil\MerceApi\Tests\Config;
 
-include_once __DIR__.'/../../vendor/autoload.php';
+include_once __DIR__ . '/../../vendor/autoload.php';
 
 class RequestTest extends TestCase
 {
@@ -31,10 +31,10 @@ class RequestTest extends TestCase
         $this->uri = new Uri(Config::URL);
     }
 
-     public function testBasicAuthWithSuccess() {
-    
+    public function testBasicAuthWithSuccess()
+    {
         $middleware = (new BasicMiddleware())
-                ->withUserAndPassword(Config::USERNAME, Config::PASSWORD);
+            ->withUserAndPassword(Config::USERNAME, Config::PASSWORD);
         $request = new Request(Request::GET, $this->uri);
 
         $response = $this->apiClient->withMiddleware($middleware)->sendRequest($request);
@@ -42,17 +42,32 @@ class RequestTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode(), 'status code');
     }
 
-    public function testGetActivity() {
-    
+    public function testGetActivity()
+    {
         $uri = $this->uri->withPath('api/activity');
         $request = new Request(Request::GET, $uri);
-        $response = $this->apiClient->sendRequest($request);
-        $responseBody = json_decode($response->getBody()->__toString(), true);
+        
+        $response = $this->apiClient->withRequest($request)->sendGetRequest();
+        $responseBody = $response->asArray();
 
         $this->assertEquals('https://www.boredapi.com/api/activity', $request->getUri()->__toString(), 'url');
         $this->assertEquals(200, $response->getStatusCode(), 'status code');
-        $this->assertArrayHasKey('activity', $responseBody, 'body');
-        $this->assertArrayHasKey('type', $responseBody, 'body');
+        $this->assertArrayHasKey('activity', $responseBody, 'body has activity item');
+        $this->assertArrayHasKey('type', $responseBody, 'body has type item');
     }
+
+    public function testGetActivityWithKey()
+    {
+        $uri = $this->uri->withPath('api/activity')->withQuery('key=5881028');
+        $request = new Request(Request::GET, $uri);
+        
+        $response = $this->apiClient->withRequest($request)->sendGetRequest();
+        $responseBody = $response->asObject();
+
+        $this->assertEquals(200, $response->getStatusCode(), 'status code');
+        $this->assertEquals(5881028, $responseBody->key);
+    }
+
+
 
 }

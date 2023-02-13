@@ -2,6 +2,16 @@
 
 Api Client stworzony na potrzeby zadania rekrutacyjnego dla firmy 'merce.
 
+## Opis wykonanego zadania
+
+Ogółem odczułem, że jestem mocno ograniczony ze względu na PSR-7 w planowaniu architektury Api Clienta.
+Moja cała dowolność działania znajduje się właściwie tylko na polu obsługi samego curla i opakowaniu go middlewerami.
+Zwłasza, że zdecydowałem się użyć ClientInterface, który sprawia, że klasa ApiClient musi udostepniać metodę 'sendRequest'.
+Dodałem jednak dodatkowe metody, które pozwalają obyć sie z Api bez tworzenei requesta, a bazowania tylko na uri jako jedynym parametrze sterującym pracą instancji ApiClienta.
+Uzywam też własnych klas Requesti i Response, wymagam wręcz ich używania. Dzięki temu można mocno rozbudowac obsługę żądań i odpowiedzi, dopasować pod konkretny sposób użycia. Np. w Responsie utworzyć metody tworzace obiekty z body JSONowego.
+
+
+
 ## Changelog
 
 1. init, PSR-7
@@ -33,3 +43,9 @@ Api Client stworzony na potrzeby zadania rekrutacyjnego dla firmy 'merce.
 
 - dodanie 2 testów do API w PHPUnit
 - dodanie exampla w examples
+
+6. Solidna rozbudowa middlewarow w ApiCliencie
+
+7. Drobne poprawki
+
+8. Dodanie plików na ciasteczka i logi.
