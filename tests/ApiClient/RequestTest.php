@@ -1,4 +1,7 @@
 <?php
+
+namespace Kamil\MerceApi\Tests;
+
 use Kamil\MerceApi\ApiClient\ApiClient;
 use Kamil\MerceApi\ApiClient\Request;
 use Kamil\MerceApi\Middleware\BasicMiddleware;
@@ -8,14 +11,12 @@ use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 
+use Kamil\MerceApi\Tests\Config;
+
 include_once __DIR__.'/../../vendor/autoload.php';
 
 class RequestTest extends TestCase
 {
-    private const USERNAME = 'admin';
-    private const PASSWORD = '1234';
-
-    private const URL = 'https://www.boredapi.com/api/';
 
     private ApiClient $apiClient;
 
@@ -27,15 +28,15 @@ class RequestTest extends TestCase
     public function before()
     {
         $this->apiClient = new ApiClient();
-        $this->uri = new Uri(self::URL);
+        $this->uri = new Uri(Config::URL);
     }
 
      public function testBasicAuthWithSuccess() {
     
         $middleware = (new BasicMiddleware())
-                ->withUserAndPassword(self::USERNAME, self::PASSWORD);
+                ->withUserAndPassword(Config::USERNAME, Config::PASSWORD);
         $request = new Request(Request::GET, $this->uri);
-        $middleware->handleRequest($request, function($request) {});
+
         $response = $this->apiClient->withMiddleware($middleware)->sendRequest($request);
 
         $this->assertEquals(200, $response->getStatusCode(), 'status code');

@@ -4,7 +4,7 @@ namespace Kamil\MerceApi\Exception;
 
 use Psr\Http\Client\ClientExceptionInterface;
 
-class ClientException implements ClientExceptionInterface
+class ClientException extends \RuntimeException implements ClientExceptionInterface
 {
     use ExceptionTrait;
 }

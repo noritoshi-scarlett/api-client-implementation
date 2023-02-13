@@ -24,8 +24,8 @@ if (!$response instanceof Response) {
 $bodyString = $response->getBody()->__toString();
 $statusCode = $response->getStatusCode();
 echo 'status code: ' . $statusCode;
+
+//echo 'response headers:' . PHP_EOL;
+//var_dump($response->getHeaders());
+//echo 'response body:' . PHP_EOL;
 //var_dump($bodyString);
-
-
-
-////////

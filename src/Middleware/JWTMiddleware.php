@@ -5,31 +5,26 @@ namespace Kamil\MerceApi\Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class BasicMiddleware implements ApiClientMiddlewareInterface
+use Kamil\MerceApi\Exception\ClientException;
+
+class JWTMiddleware implements ApiClientMiddlewareInterface
 {
-    private string $headerValue;
+    private string $token;
+
+    private $headerValue;
 
     /**
-     * @param string $username Username.
-     * @param string $password Password.
+     * @param string $token Access token.
      * 
      * @return self
      */
-    public function withUserAndPassword(string $username, string $password): self
+    public function withSecretKey(string $token): self
     {
-        $this->headerValue = "Basic " . base64_encode("$username:$password");
+        if (empty($token)) {
+            throw new ClientException('Given empty token in ' . self::class);
+        }
 
-        return $this;
-    }
-
-    /**
-     * @param string $secretKey Secret key.
-     * 
-     * @return self
-     */
-    public function withSecretKey(string $secretKey): self
-    {
-        $this->headerValue = "Basic " . base64_encode("$secretKey");
+        $this->headerValue = "Bearer " . base64_encode("$token");
 
         return $this;
     }

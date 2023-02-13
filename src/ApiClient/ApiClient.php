@@ -10,11 +10,15 @@ use Psr\Http\Message\ResponseInterface;
 
 class ApiClient implements ClientInterface
 {
-    private ApiClientMiddlewareInterface $middleware;
+    /**
+     * @var array[ApiClientMiddlewareInterface]
+     */
+    private array $middlewares = [];
 
     public function withMiddleware(ApiClientMiddlewareInterface $middleware): self
     {
-        $this->middleware = $middleware;
+        $this->middlewares[] = $middleware;
+    
         return $this;
     }
 
@@ -26,26 +30,30 @@ class ApiClient implements ClientInterface
      */
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        $ch = curl_init($request->getUri()->__toString());
+        $call = function() use ($request) {
+            $ch = curl_init($request->getUri()->__toString());
 
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        $result = curl_exec($ch);
-        if (curl_error($ch)) {
-            $error = curl_error($ch);
-        }
-        curl_close($ch);
+            $result = curl_exec($ch);
+            if (curl_error($ch)) {
+                $error = curl_error($ch);
+            }
+            curl_close($ch);
 
-        // STATUS CODE
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            // STATUS CODE
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        // RESPONSE HEADERS
-        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headerAsString = substr($result, 0, $headerSize);
-        $bodyString = substr($result, $headerSize);
+            // RESPONSE HEADERS
+            $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+            $headerAsString = substr($result, 0, $headerSize);
+            $bodyString = substr($result, $headerSize);
+        
+            return new Response($http_code, $this->headersToArray($headerAsString), $bodyString);
+        };
 
-        $response = new Response($http_code, $this->headersToArray($headerAsString), $bodyString);
+        $response = $this->pipeline($request, $call);
 
         return $response;
     }
@@ -63,5 +71,22 @@ class ApiClient implements ClientInterface
             }
         }
         return $headers;
+    }
+
+    private function pipeline(RequestInterface $basicRequest, callable $call) {
+        $pipeline = array_reduce(
+            array_reverse($this->middlewares),
+            function ($nextClosure, $middlewareClass) {
+                return function ($request) use ($nextClosure, $middlewareClass) {
+                    //$middleware = app($middlewareClass);
+                    return $middlewareClass->handleRequest($request, $nextClosure);
+                };
+            },
+            function ($request) use ($call) {
+                return $call($request);
+            }
+        );
+
+        return $pipeline($basicRequest);
     }
 }
