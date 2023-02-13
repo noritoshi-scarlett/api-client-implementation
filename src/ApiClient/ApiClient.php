@@ -19,13 +19,29 @@ class ApiClient implements ClientInterface
      */
     private array $middlewares = [];
 
+    /**
+     * @var Uri
+     */
     private Uri $uri;
 
+    /**
+     * @var Request
+     */
     private Request $request;
 
+    /**
+     * @var string
+     */
     private string $cookiePath = '../files/cookie.txt';
+
+    /**
+     * @var string
+     */
     private string $logsPath = '../logs/error.log';
 
+    /**
+     * @param string|null $errorLogPath
+     */
     public function __construct(?string $errorLogPath = null)
     {
         if (isset($errorLogPath)) {
@@ -41,6 +57,16 @@ class ApiClient implements ClientInterface
     public function withMiddleware(ApiClientMiddlewareInterface $middleware): self
     {
         $this->middlewares[] = $middleware;
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    public function resetMiddlewares(): self
+    {
+        $this->middlewares = [];
 
         return $this;
     }
@@ -166,6 +192,11 @@ class ApiClient implements ClientInterface
         return $response;
     }
 
+    /**
+     * @param string $headerAsString
+     * 
+     * @return array
+     */
     private function headersToArray(string $headerAsString): array
     {
         $headers = [];
@@ -181,6 +212,12 @@ class ApiClient implements ClientInterface
         return $headers;
     }
 
+    /**
+     * @param Request $basicRequest
+     * @param callable $call
+     * 
+     * @return callback
+     */
     private function pipeline(Request $basicRequest, callable $call)
     {
         $pipeline = array_reduce(
@@ -198,6 +235,9 @@ class ApiClient implements ClientInterface
         return $pipeline($basicRequest);
     }
 
+    /**
+     * @return void
+     */
     private function checkRequestInstance(): void
     {
         if (!isset($this->request) && $this->uri instanceof Uri) {

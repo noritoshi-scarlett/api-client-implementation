@@ -1,21 +1,16 @@
 <?php
 
-
 include_once __DIR__ . '/../vendor/autoload.php';
 
 use Kamil\MerceApi\ApiClient\ApiClient;
 use Kamil\MerceApi\ApiClient\Request;
 use Kamil\MerceApi\ApiClient\Response;
 use Nyholm\Psr7\Uri;
-use Kamil\MerceApi\Middleware\BasicMiddleware;
 
-
-// Ogolny przykład z dumpami
+// Ogolny przykład z dumpami.
 
 $apiClient = new ApiClient();
-
 $request = new Request(Request::GET, new Uri('https://www.google.com/'));
-
 $response = $apiClient->sendRequest($request);
 
 if (!$response instanceof Response) {

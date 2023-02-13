@@ -1,13 +1,9 @@
 <?php
 
-
 include_once __DIR__ . '/../vendor/autoload.php';
 
 use Kamil\MerceApi\ApiClient\ApiClient;
-use Kamil\MerceApi\ApiClient\Response;
 use Nyholm\Psr7\Uri;
-use Kamil\MerceApi\Middleware\BasicMiddleware;
-use Psr\Http\Message\RequestInterface;
 
 // Przykład 1. Zle uzycie, rzucenie wyjatku
 // Request powinien byc instancją klasy Kamil\MerceApi\ApiClient\Request;

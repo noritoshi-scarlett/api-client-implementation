@@ -18,7 +18,7 @@ class JWTMiddleware implements ApiClientMiddlewareInterface
      * 
      * @return self
      */
-    public function withSecretKey(string $token): self
+    public function withJWTToken(string $token): self
     {
         if (empty($token)) {
             throw new ClientException('Given empty token in ' . self::class);

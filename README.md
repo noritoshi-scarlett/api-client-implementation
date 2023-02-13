@@ -11,6 +11,13 @@ Dodałem jednak dodatkowe metody, które pozwalają obyć sie z Api bez tworzene
 Uzywam też własnych klas Requesti i Response, wymagam wręcz ich używania. Dzięki temu można mocno rozbudowac obsługę żądań i odpowiedzi, dopasować pod konkretny sposób użycia. Np. w Responsie utworzyć metody tworzace obiekty z body JSONowego.
 
 
+## Struktura projektu:
+
+- `/tests` -> testy napisane w PHPUnit
+- `/src` -> moje wlasne klasy: ApiClient, Request, Response, Middlewewry i Exceptiony
+- `/files` -> logi, ciasteczka
+- `/example` -> przykłady uzycia
+
 
 ## Changelog
 
