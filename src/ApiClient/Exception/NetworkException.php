@@ -1,5 +1,8 @@
 <?php
+namespace Kamil\MerceApi\Exception;
+
 use Psr\Http\Client\NetworkExceptionInterface;
+use Psr\Http\Message\RequestInterface;
 
 class NetworkException implements NetworkExceptionInterface
 {
@@ -10,9 +13,9 @@ class NetworkException implements NetworkExceptionInterface
      * Returns the request.
      *
      * The request object MAY be a different object from the one passed to ClientInterface::sendRequest()
-     * @return Psr\Http\Message\RequestInterface
+     * @return RequestInterface
      */
-    public function getRequest(): Psr\Http\Message\RequestInterface
+    public function getRequest(): RequestInterface
     {
     }
 

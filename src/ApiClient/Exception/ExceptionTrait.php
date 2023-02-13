@@ -1,5 +1,7 @@
 <?php
 
+namespace Kamil\MerceApi\Exception;
+
 trait ExceptionTrait
 {
 
