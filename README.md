@@ -1,7 +1,8 @@
 ### ApiCLient
 
 Api Client stworzony na potrzeby zadania rekrutacyjnego dla firmy X.
-Wytyczne: użycie gotowej implementacji PSR-7, implementacja PSR-18,
+
+Wytyczne: użycie gotowej implementacji PSR-7, implementacja PSR-18, autoryzacja basic i przez token, parę testów i przykładów użyć.
 
 ## Opis wykonanego zadania
 
